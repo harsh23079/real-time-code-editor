@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import ACTIONS from "../Actions";
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import Client from "../components/Client";
 import Editor from "../components/Editor";
 import { initSocket } from "../socket";
@@ -13,6 +14,7 @@ import {
 import { toast } from "react-hot-toast";
 
 const EditorPage = () => {
+  const [selectedLanguage, setSelectedLanguage] = useState("javascript"); 
   const socketRef = useRef(null);
   const codeRef = useRef(null);
 
@@ -54,7 +56,9 @@ const EditorPage = () => {
           });
           // alert("connected");
         }
+
       );
+      
 
       // Listening for disconnected
 
@@ -105,21 +109,42 @@ const EditorPage = () => {
             ))}
           </div>
         </div>
-        <button className="btn copyBtn" onClick={copyRoomId}>
+        <button className="btn copyBtn bg-[#4aee88] hover:bg-[#2b824c] text-black hover:text-white" onClick={copyRoomId}>
           Copy Room Id
         </button>
-        <button className="btn leaveBtn" onClick={leaveRoom}>
+        <button className="btn leaveBtn text-black hover:text-white" onClick={leaveRoom}>
           Leave
         </button>
       </div>
-      <div className="editorWrap">
-        <Editor
-          socketRef={socketRef}
-          roomId={roomId}
-          onCodeChange={(code) => {
-            codeRef.current = code;
-          }}
-        />
+      <div className="editorWrap ">
+        <div className="my-1 flex justify-between">
+        <div className="">
+          <select
+            id="language"
+              className="bg-gray-50 px-2  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+          >
+            <option selected>Choose language</option>
+            <option value="javascript">javascript</option>
+            <option value="Cpp">Cpp</option>
+            <option value="C">C</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
+          </select>
+        </div>
+          <div className="border-4 px-4 mx-4 rounded-lg bg-white hover:bg-green-950"><PlayArrowRoundedIcon fontSize="large" style={{color:"#2b824c"}} /></div>
+        </div>
+        <div>
+          <Editor
+            socketRef={socketRef}
+            roomId={roomId}
+            selectedLanguage={selectedLanguage}
+            onCodeChange={(code) => {
+              codeRef.current = code;
+            }}
+          />
+        </div>
       </div>
     </div>
   );
