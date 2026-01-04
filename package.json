@@ -31,8 +31,8 @@
   },
   "scripts": {
     "start:front": "react-scripts start",
-    "start": "yarn server:prod",
-    "build": "yarn install --frozen-lockfile && react-scripts build",
+    "start": "node server:prod",
+    "build": "npm install && react-scripts build",
     "server:dev": "nodemon server.js",
     "server:prod": "node server.js",
     "test": "react-scripts test",
